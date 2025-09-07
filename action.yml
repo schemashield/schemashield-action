@@ -1,0 +1,54 @@
+name: "SchemaShield CI"
+description: "Validate prompts against JSON Schemas using SchemaShield /v1/ci/run"
+author: "SchemaShield"
+branding:
+  icon: shield
+  color: blue
+inputs:
+  token:
+    description: "Project API key (ssk_*)"
+    required: true
+  provider:
+    description: "LLM provider"
+    required: true
+    default: "openai"
+  model:
+    description: "Model name"
+    required: true
+  schemas:
+    description: "Directory with JSON Schemas"
+    required: true
+  prompts:
+    description: "Directory with prompt files"
+    required: true
+  seeds:
+    description: "Number of seeds"
+    required: false
+    default: "1"
+  mode:
+    description: "validate|repair"
+    required: false
+    default: "validate"
+  api_url:
+    description: "SchemaShield API base URL"
+    required: false
+    default: "https://schemashield.ai"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Run CI
+      shell: bash
+      env:
+        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_PROVIDER: ${{ inputs.provider }}
+        INPUT_MODEL: ${{ inputs.model }}
+        INPUT_SCHEMAS_DIR: ${{ inputs.schemas }}
+        INPUT_PROMPTS_DIR: ${{ inputs.prompts }}
+        INPUT_SEEDS: ${{ inputs.seeds }}
+        INPUT_MODE: ${{ inputs.mode }}
+        INPUT_API_URL: ${{ inputs.api_url }}
+      run: |
+        node ci.js

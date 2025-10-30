@@ -1,36 +1,36 @@
 name: "SchemaShield CI"
-description: "Validate prompts against JSON Schemas using SchemaShield /v1/ci/run"
+description: "Prevent LLM output drift by validating prompts against JSON schemas in your CI pipeline"
 author: "SchemaShield"
 branding:
   icon: shield
   color: blue
 inputs:
   token:
-    description: "Project API key (ssk_*)"
+    description: "SchemaShield project API key (starts with ssk_). Get yours at https://schemashield.ai"
     required: true
   provider:
-    description: "LLM provider"
+    description: "LLM provider (e.g., openai, anthropic)"
     required: true
     default: "openai"
   model:
-    description: "Model name"
+    description: "Model name to test against (e.g., gpt-4o-mini, claude-3-5-sonnet)"
     required: true
   schemas:
-    description: "Directory with JSON Schemas"
+    description: "Path to directory containing JSON schema files (.json)"
     required: true
   prompts:
-    description: "Directory with prompt files"
+    description: "Path to directory containing prompt files (matched to schemas by filename)"
     required: true
   seeds:
-    description: "Number of seeds"
+    description: "Number of test variations to run per prompt (higher = more thorough)"
     required: false
     default: "1"
   mode:
-    description: "validate|repair"
+    description: "Validation mode: 'validate' (fast check) or 'repair' (attempt fixes)"
     required: false
     default: "validate"
   api_url:
-    description: "SchemaShield API base URL"
+    description: "SchemaShield API base URL (advanced usage only)"
     required: false
     default: "https://schemashield.ai"
 runs:
